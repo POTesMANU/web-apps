@@ -53,12 +53,14 @@ class Page {
             new Page('cnstOP.sheet.1.ua.png', true, LANG_UA, online_mspps_pat, 0),
             new Page('cnstOV.sheet.1.ru.png', true, LANG_RU, online_mspps_vol, 0),
             new Page('cnstOV.sheet.1.ua.png', true, LANG_UA, online_mspps_vol, 0),
-            new Page('cnst.sheet.1.ru0.png', true, LANG_RU, offline_mspps_pat, 0),
+            new Page('cnst.sheet.1.ru0.png', false, LANG_RU, offline_mspps_pat, 0),
             new Page('cnst.sheet.1.ua0.png', false, LANG_UA, offline_mspps_pat, 0),
             new Page('cnst.sheet.2.ru.png', true, LANG_RU, offline_mspps_pat, 1),
             new Page('cnst.sheet.2.ua.png', true, LANG_UA, offline_mspps_pat, 1),
-            new Page('cnstV.sheet.1.ru.png', true, LANG_RU, offline_mspps_vol, 0),
-            new Page('cnstV.sheet.1.ua.png', true, LANG_UA, offline_mspps_vol, 0)
+            new Page('cnst.sheet.1.ru0.png', false, LANG_RU, offline_mspps_vol, 0),
+            new Page('cnst.sheet.1.ua0.png', false, LANG_UA, offline_mspps_vol, 0),
+            new Page('cnstV.sheet.2.ru.png', true, LANG_RU, offline_mspps_vol, 1),
+            new Page('cnstV.sheet.2.ua.png', true, LANG_UA, offline_mspps_vol, 1)
         ];
     }
 
