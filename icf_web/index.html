@@ -148,6 +148,8 @@
 
             window.onload = () => {
                 const connected = 'connected';
+                document.getElementById('rejectButton').disabled = true;
+                document.getElementById('acceptButton').disabled = true;
                 window.addEventListener('message', (event) => {
                     if(parentWindow == null){
                         parentWindow = event.source;
@@ -168,9 +170,13 @@
                         images.push(new ImageItem(canvas.replace(pageCanvasIdProto, 'img'), canvas, document.getElementById(canvas).toDataURL()));
                     });
                     sendMessage(JSON.stringify(new ImagesTransport(true, images)));
+                    document.getElementById('rejectButton').disabled = true;
+                    document.getElementById('acceptButton').disabled = true;
                 }, false);
                 document.getElementById('rejectButton').addEventListener('click', () => {
                     sendMessage(JSON.stringify(new ImagesTransport(false, [])));
+                    document.getElementById('rejectButton').disabled = true;
+                    document.getElementById('acceptButton').disabled = true;
                 }, false);
             }
 
@@ -201,10 +207,14 @@
                 const decoded = ActionTransport.getTransport(message);
                 switch (decoded.action){
                     case actionDraw:
+                        document.getElementById('rejectButton').disabled = false;
+                        document.getElementById('acceptButton').disabled = false;
                         const mainList = document.getElementById('consentPagesList');
                         Page.drawAllPages(decoded.identifier, decoded.language, mainList);
                         break;
                     case actionReDraw:
+                        document.getElementById('rejectButton').disabled = false;
+                        document.getElementById('acceptButton').disabled = false;
                         canvases.forEach((canvas) => {
                             const canvasItem = document.getElementById(canvas);
                             canvasItem.getContext('2d').clearRect(0, 0, canvasItem.width, canvasItem.height);
