@@ -1,0 +1,10 @@
+[
+	{"backgroundName":"cnst.sheet.1.ru0.png","isSignEnabled":false,"lang":"ru","type":"offline_mspps_pat","number":0},
+	{"backgroundName":"cnst.sheet.1.ua0.png","isSignEnabled":false,"lang":"uk","type":"offline_mspps_pat","number":0},
+	{"backgroundName":"cnst.sheet.2.ru.png","isSignEnabled":true,"lang":"ru","type":"offline_mspps_pat","number":1},
+	{"backgroundName":"cnst.sheet.2.ua.png","isSignEnabled":true,"lang":"uk","type":"offline_mspps_pat","number":1},
+	{"backgroundName":"cnst.sheet.1.ru0.png","isSignEnabled":false,"lang":"ru","type":"offline_mspps_vol","number":0},
+	{"backgroundName":"cnst.sheet.1.ua0.png","isSignEnabled":false,"lang":"uk","type":"offline_mspps_vol","number":0},
+	{"backgroundName":"cnstV.sheet.2.ru.png","isSignEnabled":true,"lang":"ru","type":"offline_mspps_vol","number":1},
+	{"backgroundName":"cnstV.sheet.2.ua.png","isSignEnabled":true,"lang":"uk","type":"offline_mspps_vol","number":1}
+]

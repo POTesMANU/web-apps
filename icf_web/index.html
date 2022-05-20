@@ -167,7 +167,8 @@
                 document.getElementById('acceptButton').addEventListener('click', () => {
                     const images = [];
                     canvases.forEach((canvas) => {
-                        images.push(new ImageItem(canvas.replace(pageCanvasIdProto, 'img'), canvas, document.getElementById(canvas).toDataURL()));
+                        images.push(new ImageItem(canvas.replace(pageCanvasIdProto, 'page_') + "_subscriptionFront", canvas, document.getElementById(canvas).toDataURL()));
+                        images.push(new ImageItem(canvas.replace(pageCanvasIdProto, 'page_') + "_subscriptionShadow", canvas + "shadow", document.getElementById(canvas + "shadow").toDataURL()));
                     });
                     sendMessage(JSON.stringify(new ImagesTransport(true, images)));
                     document.getElementById('rejectButton').disabled = true;
@@ -210,14 +211,16 @@
                         document.getElementById('rejectButton').disabled = false;
                         document.getElementById('acceptButton').disabled = false;
                         const mainList = document.getElementById('consentPagesList');
-                        Page.drawAllPages(decoded.identifier, decoded.language, mainList);
+                        Page.drawAllPages(decoded.consentId, decoded.consent_type, decoded.language, mainList);
                         break;
                     case actionReDraw:
                         document.getElementById('rejectButton').disabled = false;
                         document.getElementById('acceptButton').disabled = false;
                         canvases.forEach((canvas) => {
                             const canvasItem = document.getElementById(canvas);
+                            const canvasItemShadow = document.getElementById(canvas + 'shadow');
                             canvasItem.getContext('2d').clearRect(0, 0, canvasItem.width, canvasItem.height);
+                            canvasItemShadow.getContext('2d').clearRect(0, 0, canvasItemShadow.width, canvasItemShadow.height);
                         });
                         break;
                 }

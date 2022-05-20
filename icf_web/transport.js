@@ -48,12 +48,14 @@ class ActionTransport{
     /**
      * Transport for sending settings and actions
      * @param action : string?
-     * @param identifier : string?
+     * @param consentId : string?
+     * @param consent_type : string?
      * @param language : string?
      */
-    constructor(action, identifier, language) {
+    constructor(action, consentId, consent_type, language) {
         this.action = action;
-        this.identifier = identifier;
+        this.consentId = consentId;
+        this.consent_type = consent_type;
         this.language = language;
     }
 
@@ -66,7 +68,8 @@ class ActionTransport{
         const actionTransport = new ActionTransport();
         const obj = JSON.parse(json);
         actionTransport.action = obj['action'];
-        actionTransport.identifier = obj['identifier'];
+        actionTransport.consent_type = obj['consent_type'];
+        actionTransport.consentId = obj['consentId'];
         actionTransport.language = obj['language'];
         return actionTransport;
     }

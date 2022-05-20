@@ -1,0 +1,6 @@
+[
+	{"backgroundName":"cnstOP.sheet.1.ru.png","isSignEnabled":true,"lang":"ru","type":"online_mspps_pat","number":0},
+	{"backgroundName":"cnstOP.sheet.1.ua.png","isSignEnabled":true,"lang":"uk","type":"online_mspps_pat","number":0},
+	{"backgroundName":"cnstOV.sheet.1.ru.png","isSignEnabled":true,"lang":"ru","type":"online_mspps_vol","number":0},
+	{"backgroundName":"cnstOV.sheet.1.ua.png","isSignEnabled":true,"lang":"uk","type":"online_mspps_vol","number":0}
+]

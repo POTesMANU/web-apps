@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body style="background-color: #222">
+<div style="background-color:#fff; margin: 0; border-radius:4px; position:absolute; display: flex; justify-content: stretch; flex-direction: column; top: 4px; bottom: 4px; right: 4px; left: 4px; box-shadow:#0009 0 2px 8px 1px">
+    <iframe style="border: 0; flex-grow: 1" id='iframeId'>
+
+    </iframe>
+</div>
+    <script type="text/javascript">
+
+        const CONFERENCE = "CONFERENCE";
+        const FREE_TRANSMISSION = "FREE_TRANSMISSION";
+        const WEB_APP = "WEB_APP";
+        const finishedSuccessful = 'finishedSuccessful';
+        const finishedUnSuccessful = 'finishedUnSuccessful';
+        const smallDisplay = 'smallDisplay';
+        const notTouchDisplay = 'notTouchDisplay';
+
+        /*injection*/
+                
+
+        async function init(misc){
+            webApp.pushVariable(misc, 'misc');
+        }
+
+        async function onServerMessage(action, message){
+            const variable = JSON.parse(await webApp.getVariableObject('misc/action'));
+            if(variable.success){
+                const actionObj = variable.value;
+                actionObj.action = action;
+                webApp.pushVariable(JSON.stringify(actionObj.consentId), 'consentId');
+                webApp.pushVariable(JSON.stringify(actionObj.consent_type), 'consent_type');
+                webApp.sendIFrameMessage(JSON.stringify(actionObj));
+                webApp.changeDisplayType(WEB_APP);
+                webApp.changeDisplayType(FREE_TRANSMISSION);
+            }
+            else{
+                console.log(variable.exception);
+            }
+        }
+
+        async function onIFrameMessage(message){
+            const data = JSON.parse(message);
+            if(data.approved) {
+                webApp.pushVariable(JSON.stringify(true), 'consentConfirmed');
+                webApp.sendServerMessage('subscribed', message);
+                webApp.changeDisplayType(CONFERENCE);
+            }
+            else {
+                webApp.pushVariable(JSON.stringify(false), 'consentConfirmed');
+                webApp.finish(finishedUnSuccessful, 'consent denied');
+            }
+        }
+
+        async function onIFrameRendered(){
+            const variable = JSON.parse(await webApp.getVariableObject('misc/page'));
+            if(variable.success){
+                const page = variable.value;
+                webApp.loadNewPage(JSON.stringify(page));
+            }
+            else{
+                console.log(variable.exception);
+            }
+        }
+
+        async function onServerFinish(misc){
+            const obj = Object.assign({
+                approved: false,
+                images64: []
+            }, JSON.parse(misc));
+            obj.images64.forEach((item) => {
+                webApp.pushImage(item['base64image'], item['fileName']);
+            });
+            webApp.finish(finishedSuccessful, null);
+        }
+
+        async function onIFrameConnected(domain, path){
+            const variable = JSON.parse(await webApp.getVariableObject('misc/action'));
+            if(variable.success){
+                const action = variable.value;
+                webApp.sendIFrameMessage(JSON.stringify(action));
+                webApp.pushVariable(JSON.stringify(action.consent_type), 'consent_type');
+                webApp.pushVariable(JSON.stringify(action.consentId), 'consentId');
+                webApp.changeDisplayType(WEB_APP);
+                webApp.changeDisplayType(FREE_TRANSMISSION);
+            }
+            else{
+                console.log(variable.exception);
+            }
+        }
+
+        async function onSubscriptionReady(frontBase64, shadowBase64){
+            webApp.pushImage(frontBase64, 'frontPatientImage');
+            webApp.pushImage(shadowBase64, 'shadowPatientImage');
+            webApp.finish(finishedSuccessful, null);
+        }
+
+
+        /*injection*/
+
+        window.addEventListener('message', (event) => {
+            if(event.origin !== 'http://localhost'){
+
+            }
+            else{
+                if(event.data.toString() === 'connected'){
+                    console.log(event);
+                    webApp.onIFrameConnected('http://localhost', pathGeneral);
+                }
+                else{
+                    console.log(event);
+                    webApp.onIFrameMessage(event.data.toString());
+                }
+            }
+        }, false);
+
+        let pathGeneral = '';
+        let iFrame = document.getElementById('iframeId');
+
+        // noinspection JSUnusedGlobalSymbols
+        function postMessageOuter(message){
+            iFrame.contentWindow.postMessage(message, 'http://localhost');
+        }
+
+        // noinspection JSUnusedGlobalSymbols
+        function loadNewPage (domain, path) {
+            pathGeneral = path;
+            iFrame.onload = () => {
+                iFrame.contentWindow.postMessage('connected', domain);
+            };
+            iFrame.src = domain + '/' + path;
+        }
+        console.log('ok');
+
+    </script>
+</body>
+</html>
